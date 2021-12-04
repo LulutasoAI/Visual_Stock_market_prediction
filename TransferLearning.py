@@ -10,12 +10,12 @@ from sklearn.model_selection import train_test_split
 import keras
 from keras.layers import Activation, Conv2D, Flatten, Dense, Dropout, Conv3D
 from keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
-from keras.layers.noise import AlphaDropout, GaussianDropout, GaussianNoise
 from keras.layers.convolutional import MaxPooling2D
 from keras.callbacks import ModelCheckpoint
-from keras.models import Sequential
-from tensorflow.keras.applications.vgg16 import VGG16
+
+from keras.layers.convolutional import MaxPooling2D
 import tensorflow as tf
+from tensorflow.keras.applications.vgg16 import VGG16
 
 
 class Transfer_learning():

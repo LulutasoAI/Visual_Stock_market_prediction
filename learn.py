@@ -19,7 +19,13 @@ class Learn():
         self.model_name = model_name
         self.model_manager = Transfer_learning()
          
-    
+    def main(self):
+        model = self.model_loader()
+        X,Y = self.data_praparation()
+        x_train, x_test, y_train, y_test = self.XnY2train(X,Y)
+        model = self.learning_process(x_train,y_train,model)
+        Accuracy,Error_Rate,Precision,Recall,F_measure = self.general_validation_for_binary(model,x_test,y_test)
+
     def data_praparation(self):
         X = []
         Y = []
@@ -57,21 +63,11 @@ class Learn():
         xy = (x_train, x_test, y_train, y_test) #is this needed? probably not.
         return x_train, x_test, y_train, y_test
 
-    def learning_process(self,X,Y):
-        model = self.model_loader()
-        #train_data prapared 
-        x_train, x_test, y_train, y_test = self.XnY2train(X,Y)
+    def learning_process(self,x_train,y_train,model = None):
+        if model == None:
+            model = self.model_loader()
         model = self.model_manager.Train(x_train,y_train,model)
         return model 
-    
-    def validation(self,x_test, y_test, model):
-        predicts = []
-        #The method below mihgt be insufficient but I am doing it for readability. 
-        for i, x in enumerate(x_test):
-            predicts.append(np.argmax(model.predict(x)))
-        for i, predict in enumerate(predicts):
-            true_ans = y_test[i]
-            #some validation processes to calculate the F-value Precision, accurasy and so on.
     
     def general_validation_for_multiple(self,model,x_test,y_test):
         predictions = model.predict(x_test)
@@ -154,7 +150,7 @@ class Learn():
 
 if __name__ == "__main__":
     learn = Learn()
-    learn.data_praparation()
+    learn.main()
 """
 inp = Image.fromarray(cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)).resize((256,256))
         inp = np.array(inp).reshape(1,256,256,3)
