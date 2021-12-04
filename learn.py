@@ -25,7 +25,7 @@ class Learn():
             #print(X_path,Y[i])
         X = np.array(X)
         Y = np.array(Y)
-         """ #Mild test?
+        """ #Mild test?
         print(Y[0])
         Image.fromarray(X[0].reshape(256,256,3)).show()
         plt.imshow(X[0].reshape(256,256,3))
