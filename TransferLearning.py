@@ -11,7 +11,7 @@ import keras
 from keras.layers import Activation, Conv2D, Flatten, Dense, Dropout, Conv3D
 from keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
 from keras.layers.convolutional import MaxPooling2D
-from keras.callbacks import ModelCheckpoint
+
 
 from keras.layers.convolutional import MaxPooling2D
 import tensorflow as tf
@@ -142,13 +142,3 @@ class Transfer_learning():
         model.summary()
         return model
 
-    def Train(self, x_train, y_train,model):
-        cp = ModelCheckpoint("weights.hdf5", monitor="val_loss", verbose=1,
-                     save_best_only=True, save_weights_only=True)
-        optimizers = Adam(lr=0.00005, decay=1e-6)  #higher learning rate did not work well in my project. You can change it as you like.
-        #SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
-        results = {}
-        epochs = 100
-        model.compile(loss="sparse_categorical_crossentropy",  optimizer=optimizers, metrics=["accuracy"])
-        results= model.fit(x_train, y_train,batch_size = 20, validation_split=0.2, epochs=epochs, shuffle=True,callbacks=[cp])
-        return model
