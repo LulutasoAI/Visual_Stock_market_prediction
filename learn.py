@@ -3,10 +3,17 @@ from Generator import Data_Generator
 import os, glob
 import sys 
 from Labellingmachine import Labeller
-
+from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split
 from TransferLearning import Transfer_learning
 import numpy as np
 from matplotlib import pyplot as plt
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_score
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
 class Learn():
     def __init__(self,model_name="VGG16"):
         self.model_name = model_name
@@ -53,7 +60,7 @@ class Learn():
     def learning_process(self,X,Y):
         model = self.model_loader()
         #train_data prapared 
-        x_train, x_test, y_train, y_test = XnY2train(X,Y)
+        x_train, x_test, y_train, y_test = self.XnY2train(X,Y)
         model = self.model_manager.Train(x_train,y_train,model)
         return model 
     
