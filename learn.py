@@ -65,8 +65,79 @@ class Learn():
         for i, predict in enumerate(predicts):
             true_ans = y_test[i]
             #some validation processes to calculate the F-value Precision, accurasy and so on.
-            
-            
+    
+    def general_validation_for_multiple(self,model,x_test,y_test):
+        predictions = model.predict(x_test)
+        predictions_arged = []
+        for i, prediction in enumerate(predictions):
+            prediction = np.argmax(prediction)
+            predictions_arged.append(prediction)
+        #I think we put predictions_arged and y_test to the scikit-learn something.
+        Precision = precision_score(y_test, predictions_arged, average='macro')
+        Accuracy = accuracy_score(y_test, predictions_arged)
+        Recall = recall_score(y_test, predictions_arged, average='macro')
+        F_measure = f1_score(y_test, predictions_arged, average='macro')
+        Error_Rate = 1-Accuracy
+        for i, pred in enumerate(predictions_arged):
+            #if i%15 == 0:
+                #plt.imshow(x_test[i])
+               # plt.title("Prediction : {}, Answer : {}".format(str(pred),y_test[i]))
+               # plt.show()
+            print("predicted : {}, ---------------vs-------------- answwer : {}".format(pred,y_test[i]))
+
+        print("Accuracy : ",Accuracy)
+        print("Error Rate : ", Error_Rate)
+        print("Precision : ", Precision)
+        print("Recall : ", Recall)
+        print("F_measure : ", F_measure)
+
+        return Accuracy,Error_Rate,Precision,Recall,F_measure
+
+    def general_validation_for_binary(self,model, x_test, y_test):
+        TP = 0
+        FP = 0
+        TN = 0
+        FN = 0
+        predictions = model.predict(x_test)
+        predictions_arged = []
+        #print(predictions,"predictions_whole")
+        for i, prediction in enumerate(predictions):
+            prediction = np.argmax(prediction)
+            predictions_arged.append(prediction)
+            if prediction == 0 and y_test[i] == 0:
+                TP += 1
+            elif prediction == 0 and y_test[i] == 1:
+                FP += 1
+            elif prediction == 1 and y_test[i] == 1:
+                TN += 1
+            elif prediction == 1 and y_test[i] ==0:
+                FN += 1
+            else:
+                print("error occurred. at general_validation_TP part.")
+                sys.exit()
+        TPR = TP/(TP+FN)
+        FPR = 1-(TN/(TN+FP))
+        Accuracy = (TP+TN)/(TP+TN+FP+FN)
+        Error_Rate = 1-Accuracy
+        Precision = TP/(TP+FP)
+        Recall = TP/(TP+FN)
+        F_measure = 2/((1/Precision)+(1/Recall))
+        print(predictions_arged)
+        for i, pred in enumerate(predictions_arged):
+            print("predicted : {}, ---------------vs-------------- answwer : {}".format(pred,y_test[i]))
+        print("TRP : ",TPR)
+        print("FPR : ", FPR)
+        print("Accuracy : ",Accuracy)
+        print("Error Rate : ", Error_Rate)
+        print("Precision : ", Precision)
+        print("Recall : ", Recall)
+        print("F_measure : ", F_measure)
+        #print("General Accuracy : ", (TP+TN)/len(y_test)) #It tunred out that General accuracy we calculated usually was the same as The official accuracy.
+
+
+        return Accuracy,Error_Rate,Precision,Recall,F_measure
+
+    
         
 
     
