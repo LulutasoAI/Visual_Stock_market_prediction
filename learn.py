@@ -14,8 +14,19 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
+from Utils import Utils
+from keras.callbacks import ModelCheckpoint
+from keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
+import datetime 
+
 class Learn():
     def __init__(self,model_name="VGG16"):
+        self.save_folder_for_models = "models"
+        self.backup_folder_for_models = "backup"
+        Utils().create_folder_if_None_exists(self.save_folder_for_models)
+        Utils().create_folder_if_None_exists(self.backup_folder_for_models)
+        
+        
         self.model_name = model_name
         self.model_manager = Transfer_learning()
          
@@ -23,8 +34,12 @@ class Learn():
         model = self.model_loader()
         X,Y = self.data_praparation()
         x_train, x_test, y_train, y_test = self.XnY2train(X,Y)
+        print(x_train.shape)
         model = self.learning_process(x_train,y_train,model)
         Accuracy,Error_Rate,Precision,Recall,F_measure = self.general_validation_for_binary(model,x_test,y_test)
+        self.model_save(model,self.save_folder_for_models,"latest_model.hdf5")
+        self.model_save(model,self.backup_folder_for_models,"{}.hdf5".format(self.get_currenttime_numeral()))
+
 
     def data_praparation(self):
         X = []
@@ -33,7 +48,7 @@ class Learn():
         X_paths,Y_labels = Labelling.main()
         #Learning data preparation.
         for i, X_path in enumerate(X_paths):
-            X.append(np.array(Image.open(X_path).convert('RGB').resize((256,256))).reshape(1,256,256,3))
+            X.append(np.array(Image.open(X_path).convert('RGB').resize((256,256))).reshape(256,256,3))
             Y.append(1 if "down" in X_path else 0)
             #print(X_path,Y[i])
         X = np.array(X)
@@ -63,10 +78,21 @@ class Learn():
         xy = (x_train, x_test, y_train, y_test) #is this needed? probably not.
         return x_train, x_test, y_train, y_test
 
+    def Train(self, x_train, y_train,model):
+        cp = ModelCheckpoint("weights.hdf5", monitor="val_loss", verbose=1,
+                     save_best_only=True, save_weights_only=True)
+        optimizers = Adam(lr=0.00005, decay=1e-6)  #higher learning rate did not work well in my project. You can change it as you like.
+        #SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
+        results = {}
+        epochs = 500
+        model.compile(loss="sparse_categorical_crossentropy",  optimizer=optimizers, metrics=["accuracy"])
+        results= model.fit(x_train, y_train,batch_size = 20, validation_split=0.2, epochs=epochs, shuffle=True,callbacks=[cp])
+        return model
+
     def learning_process(self,x_train,y_train,model = None):
         if model == None:
             model = self.model_loader()
-        model = self.model_manager.Train(x_train,y_train,model)
+        model = self.Train(x_train,y_train,model)
         return model 
     
     def general_validation_for_multiple(self,model,x_test,y_test):
@@ -141,8 +167,16 @@ class Learn():
         return Accuracy,Error_Rate,Precision,Recall,F_measure
 
     
-        
+    def model_save(self, model, savefolder, modelname):
+        model.save(os.path.join(savefolder,modelname))
 
+    def model_load(self, base_model, savefolder, modelname):
+        base_model.load_weights(os.path.join(savefolder,modelname))
+        return base_model
+    
+    def get_currenttime_numeral(self):
+        d = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+        return d
     
 
        

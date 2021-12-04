@@ -14,5 +14,5 @@ from Utils import Utils
 
 class estimation():
     def __init__(self):
-        pass
+        self.the_latest_model_name = "latest_model.hdf5"
 
