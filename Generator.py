@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pandas_datareader import data
 from datetime import date
-import stockidlst
+from stockidlst import Stock_symbol_data_centre
 import matplotlib.dates as mdates
 import sys 
 import mplfinance as mpf
@@ -13,7 +13,11 @@ from Utils import Utils
 class Data_Generator():
 
     def __init__(self):
-        self.stock_id_list = stockidlst.sidlist
+        #Data_retrieve_method below. So far, 0, for a pre-made
+        #list inside of the python file 
+        #while 1, for getting the data from the wikipedia page
+        Data_retrieve_method = 1 
+        self.stock_id_list = Stock_symbol_data_centre().Get_data(Data_retrieve_method)
         self.util = Utils()
         self.file = "Bestdata2010"
     
