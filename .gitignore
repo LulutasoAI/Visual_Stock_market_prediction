@@ -1,8 +1,12 @@
+all_backup/
+backup/
+Bestdata2010/
+pickleddata/
+backupdata/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-Bestdata2010/
 # C extensions
 *.so
 all/

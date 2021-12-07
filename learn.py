@@ -18,21 +18,32 @@ from Utils import Utils
 from keras.callbacks import ModelCheckpoint
 from keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
 import datetime 
-
+from GeneralUtils import PictureProcessing
 class Learn():
     def __init__(self,model_name="VGG16"):
+        self.message = """
+        run_mode 0 for newly generating X and Y while 
+        run_mode 1 for loading the latest learning data.
+        """
         self.save_folder_for_models = "models"
         self.backup_folder_for_models = "backup"
         Utils().create_folder_if_None_exists(self.save_folder_for_models)
         Utils().create_folder_if_None_exists(self.backup_folder_for_models)
-        
+        self.run_mode = int(sys.argv[1])
         
         self.model_name = model_name
         self.model_manager = Transfer_learning()
          
     def main(self):
         model = self.model_loader()
-        X,Y = self.data_praparation()
+        if self.run_mode == 0:
+            X,Y = self.data_praparation()
+            PictureProcessing().XYpickler(X,Y)
+        elif self.run_mode == 1:
+            X,Y = PictureProcessing().XYloader()
+        else:
+            print(self.message)
+            sys.exit()
         x_train, x_test, y_train, y_test = self.XnY2train(X,Y)
         print(x_train.shape)
         model = self.learning_process(x_train,y_train,model)
