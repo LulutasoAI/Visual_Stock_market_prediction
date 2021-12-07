@@ -2,10 +2,13 @@ from PIL import Image
 from Generator import Data_Generator
 import os, glob
 import sys 
-
+import configparser
 
 class Image_modifier():
     def __init__(self,Safety=True):
+        config_ini = configparser.ConfigParser()
+        config_ini.read('config.ini', encoding='utf-8')
+        self.file = config_ini["Folders"]["Folder"]
         self.Safety = Safety 
 
     def main(self):
@@ -13,8 +16,7 @@ class Image_modifier():
             sys.exit()
         else:
             pass 
-        generator = Data_Generator() #Just to get the filepath not to make the entire data again by executing the main function.
-        folder = generator.file
+        folder = self.file
         up_and_down_paths = glob.glob(os.path.join(folder,"*"))
         for i,up_or_down in enumerate(up_and_down_paths):
             if i == 0:#up?

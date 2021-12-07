@@ -2,10 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+Bestdata2010/
 # C extensions
 *.so
-
+all/
 # Distribution / packaging
 .Python
 build/
