@@ -95,9 +95,9 @@ class Learn():
         optimizers = Adam(lr=0.00005, decay=1e-6)  #higher learning rate did not work well in my project. You can change it as you like.
         #SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
         results = {}
-        epochs = 500
+        epochs = 100
         model.compile(loss="sparse_categorical_crossentropy",  optimizer=optimizers, metrics=["accuracy"])
-        results= model.fit(x_train, y_train,batch_size = 20, validation_split=0.2, epochs=epochs, shuffle=True,callbacks=[cp])
+        results= model.fit(x_train, y_train,batch_size = 1024, validation_split=0.2, epochs=epochs, shuffle=True,callbacks=[cp])
         return model
 
     def learning_process(self,x_train,y_train,model = None):
