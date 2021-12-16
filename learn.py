@@ -15,8 +15,9 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 from Utils import Utils
-from keras.callbacks import ModelCheckpoint
-from keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
+import tensorflow as tf
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
 import datetime 
 from GeneralUtils import PictureProcessing
 class Learn():
@@ -51,7 +52,6 @@ class Learn():
         self.model_save(model,self.save_folder_for_models,"latest_model.hdf5")
         self.model_save(model,self.backup_folder_for_models,"{}.hdf5".format(self.get_currenttime_numeral()))
 
-
     def data_praparation(self):
         X = []
         Y = []
@@ -79,7 +79,7 @@ class Learn():
         model = self.model_manager.load_model(self.model_name)
         return model 
 
-    def XnY2train(self,X, Y, test_size =0.2, Shuffle = True):
+    def XnY2train(self,X, Y, test_size =0.9, Shuffle = True):
         if shuffle == True:
             X,Y = shuffle(X, Y)
         else:
@@ -97,7 +97,7 @@ class Learn():
         results = {}
         epochs = 100
         model.compile(loss="sparse_categorical_crossentropy",  optimizer=optimizers, metrics=["accuracy"])
-        results= model.fit(x_train, y_train,batch_size = 1024, validation_split=0.2, epochs=epochs, shuffle=True,callbacks=[cp])
+        results= model.fit(x_train, y_train,batch_size = 32, validation_split=0.3, epochs=epochs, shuffle=True,callbacks=[cp])
         return model
 
     def learning_process(self,x_train,y_train,model = None):

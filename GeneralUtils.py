@@ -7,19 +7,19 @@ import pickle
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import keras
-from keras.layers import Activation, Conv2D, Flatten, Dense, Dropout, Conv3D
-from keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
-from keras.layers.noise import AlphaDropout, GaussianDropout, GaussianNoise
-from keras.layers.convolutional import MaxPooling2D
-from keras.callbacks import ModelCheckpoint
-from keras.models import Sequential
+from tensorflow.keras.layers import Activation, Conv2D, Flatten, Dense, Dropout, Conv3D
+from tensorflow.keras.optimizers import SGD, Adadelta, Adagrad, Adam, Adamax, RMSprop, Nadam
+from tensorflow.keras.layers import AlphaDropout, GaussianDropout, GaussianNoise
+from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.models import Sequential
 import datetime
 
 class PictureProcessing():
     def __init__(self):
         """You can modify the _init_ process that can be set through config.ini"""
         self.picture_data_folder_name = "data2"
-        self.folder_name_for_models = "pickleddata"
+        self.folder_name_for_models = "newpickleddata"
         self.folder_name_for_backups = "backupdata"
         self.image_size = 256 #it could be 200, 50 or anything as you like.
 

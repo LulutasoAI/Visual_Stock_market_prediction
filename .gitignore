@@ -3,6 +3,8 @@ backup/
 Bestdata2010/
 pickleddata/
 backupdata/
+newpickleddata/
+testpickleddata/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
