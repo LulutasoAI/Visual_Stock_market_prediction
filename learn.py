@@ -79,7 +79,7 @@ class Learn():
         model = self.model_manager.load_model(self.model_name)
         return model 
 
-    def XnY2train(self,X, Y, test_size =0.9, Shuffle = True):
+    def XnY2train(self,X, Y, test_size =0.4, Shuffle = True):
         if shuffle == True:
             X,Y = shuffle(X, Y)
         else:
@@ -97,7 +97,7 @@ class Learn():
         results = {}
         epochs = 100
         model.compile(loss="sparse_categorical_crossentropy",  optimizer=optimizers, metrics=["accuracy"])
-        results= model.fit(x_train, y_train,batch_size = 32, validation_split=0.3, epochs=epochs, shuffle=True,callbacks=[cp])
+        results= model.fit(x_train, y_train,batch_size = 16, validation_split=0.3, epochs=epochs, shuffle=True,callbacks=[cp])
         return model
 
     def learning_process(self,x_train,y_train,model = None):
