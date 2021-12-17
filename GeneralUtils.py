@@ -19,7 +19,7 @@ class PictureProcessing():
     def __init__(self):
         """You can modify the _init_ process that can be set through config.ini"""
         self.picture_data_folder_name = "data2"
-        self.folder_name_for_models = "newpickleddata"
+        self.folder_name_for_models = "/content/drive/MyDrive/newpickleddata"
         self.folder_name_for_backups = "backupdata"
         self.image_size = 256 #it could be 200, 50 or anything as you like.
 
