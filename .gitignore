@@ -6,6 +6,8 @@ backupdata/
 newpickleddata/
 testpickleddata/
 weights/
+Yogensho/
+temp_image_for_estimation/image.png
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
