@@ -78,7 +78,7 @@ class Transfer_learning():
         """
         return model
 
-    def load_Vgg16(self):
+    def load_Vgg16(self,model_path=None,load=False):
         """
         load VGG16
         for tranining
@@ -113,6 +113,8 @@ class Transfer_learning():
         weights_path = "exetendedone.hdf5"
         model.load_weights(weights_path)
         """
+        if load:
+            model.load_weights(model_path)
         return model
 
     def base_model_init_(self):
