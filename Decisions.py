@@ -31,7 +31,7 @@ class Position_generotor:
 
     def make_positions(self, price_data:pd.DataFrame):
         price_data = price_data[[ "Open", "High", "Low", "Close", "Volume"]]
-        positions = []
+        positions = [0] *40
         for i in range(40,len(price_data)):
             current_data = price_data[i-40:i]
             if len(current_data)!=40:

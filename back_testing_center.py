@@ -32,6 +32,7 @@ class Back_test:
         data :pd.DataFrame = pd.DataFrame()
         if len(returns) != len(positions):
             print("Something is apparently wrong.")
+            print("returnslength : ", len(returns)," positions_length: ",len(positions))
             return 
         else:
             data["returns"] = returns
