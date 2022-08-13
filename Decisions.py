@@ -46,6 +46,25 @@ class Position_generotor:
             positions.append(self.predict(image_to_predict))
         return positions
 
+    def make_positions_less_freqently(self, price_data:pd.DataFrame):
+        price_data = price_data[[ "Open", "High", "Low", "Close", "Volume"]]
+        positions = [0] *40
+        for i in range(40,len(price_data)):
+            if i%20 != 0:
+                positions.append(positions[-1])
+                continue
+            current_data = price_data[i-40:i]
+            if len(current_data)!=40:
+                sys.exit()
+            current_data = current_data.copy()
+            mpf.plot(current_data ,type="candle", mav=(3,8,21),style='yahoo',closefig=True,savefig=self.temp_image_path)  
+            image = Image.open(self.temp_image_path)
+            #image.show()
+            w, h = image.size
+            box = (w*0.2,h*0.13,w*0.89,h*0.8)
+            image_to_predict = np.array(image.crop(box).convert('RGB').resize((256,256))).reshape(1,256,256,3)
+            positions.append(self.predict(image_to_predict))
+        return positions
     
     def predict(self,image_to_predict):
         result_best = self.model.predict(image_to_predict)[0][0]

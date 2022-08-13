@@ -6,7 +6,7 @@ class Assessment():
     def __init__(self) -> None:
         pass 
     
-    def assess(self):
+    def assess(self, freqency= "high"):
         position_gen = Position_generotor()
         backtest_centre = Back_test("^N225")
         #things needed 
@@ -14,7 +14,10 @@ class Assessment():
         #2, positions
         data = backtest_centre.dataframe
         returns = backtest_centre.make_returns()
-        positions = position_gen.make_positions(data)
+        if freqency == "high":
+            positions = position_gen.make_positions(data)
+        else:
+            positions = position_gen.make_positions_less_freqently(data)
         generated_data = backtest_centre.create_data_frame_for_calc_result(returns,positions)
         backtest_centre.make_result(generated_data)
 

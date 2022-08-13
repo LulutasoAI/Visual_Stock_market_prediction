@@ -16,7 +16,7 @@ class Baseutils():
         
     def variables_init(self,start,end) -> Tuple[str, str]:
         if start == None:
-            start = datetime.datetime(2001,4,1)
+            start = datetime.datetime(2015,4,1)
         if end == None:
             end = datetime.datetime.today()
         return start, end
